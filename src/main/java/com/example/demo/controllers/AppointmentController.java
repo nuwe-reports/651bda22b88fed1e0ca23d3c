@@ -10,13 +10,10 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 
 @RestController
@@ -25,6 +22,7 @@ public class AppointmentController {
 
     @Autowired
     AppointmentRepository appointmentRepository;
+    RoomRepository roomRepository;
 
     @GetMapping("/appointments")
     public ResponseEntity<List<Appointment>> getAllAppointments(){
@@ -51,14 +49,20 @@ public class AppointmentController {
     }
 
     @PostMapping("/appointment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public ResponseEntity<List<Appointment>> createAppointment(@RequestBody Appointment appointment){
-        /** TODO 
+        /** TODO
          * Implement this function, which acts as the POST /api/appointment endpoint.
          * Make sure to check out the whole project. Specially the Appointment.java class
          */
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
-    }
 
+        if (appointment.getStartsAt().isEqual(appointment.getFinishesAt())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            appointmentRepository.save(appointment);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
 
     @DeleteMapping("/appointments/{id}")
     public ResponseEntity<HttpStatus> deleteAppointment(@PathVariable("id") long id){
