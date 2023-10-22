@@ -10,6 +10,9 @@
 <br>
 <br>
 
+<img width="399" alt="image" src="https://github.com/nuwe-reports/651bda22b88fed1e0ca23d3c/assets/64220340/ed4f6860-1360-4809-a158-6d26824edf0d">
+
+
 # O desafio: uma aplicação de testes com Selenium e Cucumber :memo:
 Validação no site da Accenture utilizando Cucumber, Selenium WebDriver em Java.
   
